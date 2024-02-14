@@ -1,6 +1,5 @@
 package com.example.app10dias.model
 
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -15,8 +14,8 @@ data class F1(
     @ColorRes val colorFondoCarta: Int,
     @StringRes val link: Int,
     val numeroCampeonatosConstructores: Int,
-    val numeroCampeonatosPiloto1: Int,
-    val numeroCampeonatosPiloto2: Int
+    val numeroVictoriasPiloto1: Int,
+    val numeroVictoriasPiloto2: Int
 )
 
 

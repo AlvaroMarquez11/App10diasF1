@@ -15,8 +15,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorRedBull,
             link = R.string.link1,
             numeroCampeonatosConstructores = 6,
-            numeroCampeonatosPiloto1 = 3,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 54,
+            numeroVictoriasPiloto2 = 6
         ),
         F1(
             equipo = R.string.equipo2,
@@ -24,12 +24,12 @@ object F1Repository {
             piloto1 = R.string.pilotos2,
             piloto2 = R.string.pilotos2_1,
             escudo = R.drawable.mercedes,
-            coche = R.drawable.ferrari,
+            coche = R.drawable.mercedescoche,
             colorFondoCarta = R.color.colorMercedes,
             link = R.string.link2,
             numeroCampeonatosConstructores = 8,
-            numeroCampeonatosPiloto1 = 7,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 103,
+            numeroVictoriasPiloto2 = 1
         ),
         F1(
             equipo = R.string.equipo3,
@@ -41,8 +41,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorFerrari,
             link = R.string.link3,
             numeroCampeonatosConstructores = 16,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 5,
+            numeroVictoriasPiloto2 = 2
         ),
         F1(
             equipo = R.string.equipo4,
@@ -54,8 +54,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorMClaren,
             link = R.string.link4,
             numeroCampeonatosConstructores = 8,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 0,
+            numeroVictoriasPiloto2 = 0
         ),
         F1(
             equipo = R.string.equipo5,
@@ -67,8 +67,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorAstonMartin,
             link = R.string.link5,
             numeroCampeonatosConstructores = 0,
-            numeroCampeonatosPiloto1 = 2,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 32,
+            numeroVictoriasPiloto2 = 0
         ),
         F1(
             equipo = R.string.equipo6,
@@ -80,8 +80,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorAlpine,
             link = R.string.link6,
             numeroCampeonatosConstructores = 2,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 1,
+            numeroVictoriasPiloto2 = 1
         ),
         F1(
             equipo = R.string.equipo7,
@@ -93,8 +93,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorWilliams,
             link = R.string.link7,
             numeroCampeonatosConstructores = 9,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 0,
+            numeroVictoriasPiloto2 = 0
         ),
         F1(
             equipo = R.string.equipo8,
@@ -106,8 +106,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorVisaRB,
             link = R.string.link8,
             numeroCampeonatosConstructores = 0,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 0,
+            numeroVictoriasPiloto2 = 8
         ),
         F1(
             equipo = R.string.equipo9,
@@ -119,8 +119,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorStake,
             link = R.string.link9,
             numeroCampeonatosConstructores = 0,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 10,
+            numeroVictoriasPiloto2 = 0
         ),
         F1(
             equipo = R.string.equipo10,
@@ -132,8 +132,8 @@ object F1Repository {
             colorFondoCarta = R.color.colorHaas,
             link = R.string.link10,
             numeroCampeonatosConstructores = 0,
-            numeroCampeonatosPiloto1 = 0,
-            numeroCampeonatosPiloto2 = 0
+            numeroVictoriasPiloto1 = 0,
+            numeroVictoriasPiloto2 = 0
         ),
 
     )

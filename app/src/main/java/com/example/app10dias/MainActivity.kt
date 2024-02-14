@@ -159,8 +159,8 @@ fun SentenceItem(
                     f1.coche,
                     f1.link,
                     f1.numeroCampeonatosConstructores,
-                    f1.numeroCampeonatosPiloto1,
-                    f1.numeroCampeonatosPiloto2
+                    f1.numeroVictoriasPiloto1,
+                    f1.numeroVictoriasPiloto2
                     //f1.colorFuente
                 )
             }
@@ -186,14 +186,14 @@ fun ClubInformation(
     Column {
         Row {
             Column {
-                NombreEquipo(equipo, numeroCampeonatosConstructores)
+                NombreEquipo(equipo)
                 Spacer(modifier = Modifier.weight(1f))
                 Row {
                     repeat(numeroCampeonatosConstructores){
                         Image(
                             painter = painterResource(R.drawable.trofeo),
                             contentDescription = null,
-                            modifier = modifier.size(18.dp).padding(2.dp)
+                            modifier = modifier.size(18.dp)
                         )
                     }
                 }
@@ -222,11 +222,11 @@ fun ClubInformation(
                                 .size(dimensionResource(R.dimen.image_size)),
                         )
                         Text(
-                            text = stringResource(piloto1) + numeroCampeonatosPiloto1,
+                            text = stringResource(piloto1) + " " + numeroCampeonatosPiloto1 + " victoria(s)",
                             color = Color.White,
                         )
                         Text(
-                            text = stringResource(piloto2) + numeroCampeonatosPiloto2,
+                            text = stringResource(piloto2) + " " + numeroCampeonatosPiloto2 + " victoria(s)",
                             color = Color.White,
                         )
                         EnlaceWeb(link)
@@ -249,7 +249,7 @@ private fun NombreJefeDeEquipo(estadio: Int) {
 }
 
 @Composable
-private fun NombreEquipo(nombre: Int, numeroCampeonatosConstructores: Int) {
+private fun NombreEquipo(nombre: Int) {
     Text(
         text = stringResource(nombre),
         style = MaterialTheme.typography.titleLarge,
