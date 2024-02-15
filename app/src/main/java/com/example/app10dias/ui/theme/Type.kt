@@ -10,8 +10,8 @@ import com.example.app10dias.R
 
 
 val Cabin = FontFamily(
-    Font(R.font.cabin_regular, FontWeight.Normal),
-    Font(R.font.cabin_bold, FontWeight.Bold)
+    Font(R.font.tapestry_regular, FontWeight.Normal),
+    Font(R.font.rubikdirt_regular, FontWeight.Bold),
 )
 
 val Typography = Typography(

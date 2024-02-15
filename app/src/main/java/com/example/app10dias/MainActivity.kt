@@ -9,6 +9,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -69,7 +70,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FutbolApp()
+
+
+                    FutbolApp(if (isSystemInDarkTheme()) R.drawable.logof1negro else R.drawable.logof1)
                 }
             }
         }
@@ -78,10 +81,10 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FutbolApp() {
+fun FutbolApp(image: Int) {
     Scaffold(
         topBar = {
-            FutbolTopBar()
+            FutbolTopBar(image)
         }
     ) { it ->
         LazyColumn(contentPadding = it) {
@@ -97,7 +100,7 @@ fun FutbolApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FutbolTopBar(modifier: Modifier = Modifier) {
+fun FutbolTopBar(image: Int, modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = {
             Row(
@@ -105,11 +108,11 @@ fun FutbolTopBar(modifier: Modifier = Modifier) {
             ) {
                 Spacer(modifier = Modifier.weight(1f))
 
-                /*Icon(
-                    painterResource(R.drawable.balonfutbol),
+                Image(
+                    painterResource(image),
                     contentDescription = null,
                     modifier = modifier.size(dimensionResource(R.dimen.image_size3))
-                )*/
+                )
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -121,11 +124,11 @@ fun FutbolTopBar(modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                /*Icon(
-                    painterResource(R.drawable.balonfutbol),
+                Image(
+                    painterResource(image),
                     contentDescription = null,
                     modifier = modifier.size(dimensionResource(R.dimen.image_size3))
-                )*/
+                )
                 Spacer(modifier = Modifier.weight(1f))
             }
         },
@@ -161,7 +164,6 @@ fun SentenceItem(
                     f1.numeroCampeonatosConstructores,
                     f1.numeroVictoriasPiloto1,
                     f1.numeroVictoriasPiloto2
-                    //f1.colorFuente
                 )
             }
         }
@@ -188,12 +190,13 @@ fun ClubInformation(
             Column {
                 NombreEquipo(equipo)
                 Spacer(modifier = Modifier.weight(1f))
-                Row {
+                Row (modifier = modifier.padding(start = 15.dp)){
                     repeat(numeroCampeonatosConstructores){
                         Image(
                             painter = painterResource(R.drawable.trofeo),
                             contentDescription = null,
-                            modifier = modifier.size(18.dp)
+                            modifier = modifier
+                                .size(18.dp)
                         )
                     }
                 }
@@ -252,7 +255,7 @@ private fun NombreJefeDeEquipo(estadio: Int) {
 private fun NombreEquipo(nombre: Int) {
     Text(
         text = stringResource(nombre),
-        style = MaterialTheme.typography.titleLarge,
+        style = MaterialTheme.typography.displayLarge,
         color = Color.White,
         modifier = Modifier
             .padding(dimensionResource(R.dimen.padding_medium)),
@@ -316,7 +319,7 @@ private fun IconBoton(
 @Composable
 fun SentenceLightPreview() {
     App10DiasTheme(darkTheme = false) {
-        FutbolApp()
+        FutbolApp(R.drawable.logof1)
     }
 }
 
@@ -324,6 +327,6 @@ fun SentenceLightPreview() {
 @Composable
 fun SentenceDarkPreview() {
     App10DiasTheme(darkTheme = true) {
-        FutbolApp()
+        FutbolApp(R.drawable.logof1negro)
     }
 }
