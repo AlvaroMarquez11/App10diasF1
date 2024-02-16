@@ -70,8 +70,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-
                     FutbolApp(if (isSystemInDarkTheme()) R.drawable.logof1negro else R.drawable.logof1)
                 }
             }
