@@ -3,6 +3,7 @@ package com.example.app10dias.model
 import android.media.AudioPresentation
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
 import androidx.annotation.StringRes
 
 data class F1(
@@ -13,6 +14,7 @@ data class F1(
     @DrawableRes val escudo: Int,
     @DrawableRes val coche: Int,
     @ColorRes val colorFondoCarta: Int,
+    @ColorRes val colorFuente: Int,
     @StringRes val link: Int,
     @StringRes val linkPresentation: Int,
     val numeroCampeonatosConstructores: Int,

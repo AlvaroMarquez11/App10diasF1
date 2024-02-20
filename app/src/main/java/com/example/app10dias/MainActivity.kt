@@ -5,11 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -135,7 +139,7 @@ private fun LogoF1(image: Int, modifier: Modifier) {
 @Composable
 private fun Titulo() {
     Text(
-        text = stringResource(R.string.app_name),
+        text = stringResource(R.string.topBar),
         style = MaterialTheme.typography.displayLarge,
         fontWeight = FontWeight.Bold
     )
@@ -149,11 +153,11 @@ fun F1Item(
     Card(
         modifier = modifier
             .clip(
-            MaterialTheme.shapes.medium.copy(
-                topStart = CornerSize(0.dp),
-                bottomEnd = CornerSize(0.dp)
+                MaterialTheme.shapes.medium.copy(
+                    topStart = CornerSize(0.dp),
+                    bottomEnd = CornerSize(0.dp)
+                )
             )
-        )
     ) {
         Column(
             modifier = Modifier
@@ -177,6 +181,7 @@ fun F1Item(
                     f1.jefeEquipo,
                     f1.escudo,
                     f1.coche,
+                    f1.colorFuente,
                     f1.link,
                     f1.linkPresentation,
                     f1.numeroCampeonatosConstructores,
@@ -196,6 +201,7 @@ fun TeamInformation(
     @StringRes jefeEquipo: Int,
     @DrawableRes escuderia: Int,
     @DrawableRes coche: Int,
+    @ColorRes colorFuente: Int,
     @StringRes link: Int,
     @StringRes linkPresentacion: Int,
     numeroCampeonatosConstructores: Int,
@@ -203,25 +209,29 @@ fun TeamInformation(
     numeroCampeonatosPiloto2: Int,
     modifier: Modifier = Modifier
 ) {
+    var rotationState by remember { mutableStateOf(0f) }
     var expanded by remember { mutableStateOf(false) }
     Column {
         Row {
             Column {
-                NombreEquipo(equipo)
+                NombreEquipo(equipo, colorFuente)
                 Spacer(modifier = Modifier.weight(1f))
-                Row (modifier = modifier.padding(start = 15.dp)){
+                Row(modifier = modifier.padding(start = 15.dp)) {
                     Trofeos(numeroCampeonatosConstructores, modifier)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            Escudo(escuderia, modifier)
+            Escudo(escuderia, rotationState, modifier)
         }
         Column {
             Row {
 
-                NombreJefeDeEquipo(jefeEquipo)
+                NombreJefeDeEquipo(jefeEquipo, colorFuente)
                 Spacer(modifier = Modifier.weight(1f))
-                IconBoton(expanded, onClick = { expanded = !expanded })
+                IconBoton(expanded, onClick = {
+                    expanded = !expanded
+                    rotationState += 360f
+                })
             }
             Row {
                 if (expanded) {
@@ -231,10 +241,10 @@ fun TeamInformation(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         ImagenCoche(linkPresentacion, coche)
-                        TextoInformativo()
-                        TextoPiloto(piloto1, numeroCampeonatosPiloto1)
-                        TextoPiloto(piloto2, numeroCampeonatosPiloto2)
-                        EnlaceWeb(link)
+                        TextoInformativo(colorFuente)
+                        TextoPiloto(piloto1, numeroCampeonatosPiloto1, colorFuente)
+                        TextoPiloto(piloto2, numeroCampeonatosPiloto2, colorFuente)
+                        EnlaceWeb(link, colorFuente)
                     }
                 }
             }
@@ -258,15 +268,15 @@ private fun Trofeos(
 }
 
 @Composable
-private fun TextoPiloto(piloto: Int, numeroCampeonatosPiloto: Int) {
+private fun TextoPiloto(piloto: Int, numeroCampeonatosPiloto: Int, @ColorRes colorFuente: Int) {
     Text(
         text = stringResource(piloto) + " " + numeroCampeonatosPiloto + " " + stringResource(R.string.victorias),
-        color = Color.White,
+        color = colorResource(colorFuente),
     )
 }
 
 @Composable
-private fun TextoInformativo() {
+private fun TextoInformativo(@ColorRes colorFuente: Int) {
     val subrayado = buildAnnotatedString {
         withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
             append(stringResource(R.string.clickImagen))
@@ -274,7 +284,7 @@ private fun TextoInformativo() {
     }
     Text(
         text = subrayado,
-        color = Color.White,
+        color = colorResource(colorFuente),
         modifier = Modifier
             .padding(
                 top = dimensionResource(R.dimen.padding_small),
@@ -307,22 +317,22 @@ private fun ImagenCoche(linkPresentacion: Int, coche: Int) {
 }
 
 @Composable
-private fun NombreJefeDeEquipo(estadio: Int) {
+private fun NombreJefeDeEquipo(estadio: Int, @ColorRes colorFuente: Int) {
     Text(
         text = stringResource(R.string.jefeEquipo) + "  " + stringResource(estadio),
         style = MaterialTheme.typography.titleLarge,
-        color = Color.White,
+        color = colorResource(colorFuente),
         modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
         fontStyle = FontStyle.Italic
     )
 }
 
 @Composable
-private fun NombreEquipo(nombre: Int) {
+private fun NombreEquipo(nombre: Int, @ColorRes colorFuente: Int) {
     Text(
         text = stringResource(nombre),
         style = MaterialTheme.typography.displayLarge,
-        color = Color.White,
+        color = colorResource(colorFuente),
         modifier = Modifier
             .padding(dimensionResource(R.dimen.padding_medium)),
         fontWeight = FontWeight.Bold
@@ -330,18 +340,23 @@ private fun NombreEquipo(nombre: Int) {
 }
 
 @Composable
-private fun Escudo(escudo: Int, modifier: Modifier) {
+private fun Escudo(escudo: Int, rotation: Float, modifier: Modifier) {
+    val animatedRotation by animateFloatAsState(
+        targetValue = rotation,
+        animationSpec = tween(durationMillis = 1000), label = ""
+    )
     Image(
         painter = painterResource(escudo),
         contentDescription = null,
         modifier = modifier
-            .size(dimensionResource(R.dimen.image_size)),
+            .size(dimensionResource(R.dimen.image_size))
+            .rotate(animatedRotation),
         contentScale = ContentScale.Crop
     )
 }
 
 @Composable
-fun EnlaceWeb(@StringRes f1Link: Int) {
+fun EnlaceWeb(@StringRes f1Link: Int, @ColorRes colorFuente: Int) {
     val link = stringResource(f1Link)
     val localContext = LocalContext.current
     val linkSubrayado = buildAnnotatedString {
@@ -358,7 +373,7 @@ fun EnlaceWeb(@StringRes f1Link: Int) {
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Serif,
             fontSize = 15.sp,
-            color = Color.White
+            color = colorResource(colorFuente)
         )
     }
 }
