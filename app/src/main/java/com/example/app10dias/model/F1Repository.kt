@@ -11,9 +11,10 @@ object F1Repository {
             piloto1 = R.string.pilotos1,
             piloto2 = R.string.pilotos1_1,
             escudo = R.drawable.redbull,
-            coche = R.drawable.ferrari,
+            coche = R.drawable.redbullcoche,
             colorFondoCarta = R.color.colorRedBull,
             link = R.string.link1,
+            linkPresentation = R.string.link1_1,
             numeroCampeonatosConstructores = 6,
             numeroVictoriasPiloto1 = 54,
             numeroVictoriasPiloto2 = 6
@@ -27,6 +28,7 @@ object F1Repository {
             coche = R.drawable.mercedescoche,
             colorFondoCarta = R.color.colorMercedes,
             link = R.string.link2,
+            linkPresentation = R.string.link2_1,
             numeroCampeonatosConstructores = 8,
             numeroVictoriasPiloto1 = 103,
             numeroVictoriasPiloto2 = 1
@@ -40,6 +42,7 @@ object F1Repository {
             coche = R.drawable.ferraricoche,
             colorFondoCarta = R.color.colorFerrari,
             link = R.string.link3,
+            linkPresentation = R.string.link3_1,
             numeroCampeonatosConstructores = 16,
             numeroVictoriasPiloto1 = 5,
             numeroVictoriasPiloto2 = 2
@@ -53,6 +56,7 @@ object F1Repository {
             coche = R.drawable.mclarencoche,
             colorFondoCarta = R.color.colorMClaren,
             link = R.string.link4,
+            linkPresentation = R.string.link4_1,
             numeroCampeonatosConstructores = 8,
             numeroVictoriasPiloto1 = 0,
             numeroVictoriasPiloto2 = 0
@@ -66,6 +70,7 @@ object F1Repository {
             coche = R.drawable.astonmartincoche,
             colorFondoCarta = R.color.colorAstonMartin,
             link = R.string.link5,
+            linkPresentation = R.string.link5_1,
             numeroCampeonatosConstructores = 0,
             numeroVictoriasPiloto1 = 32,
             numeroVictoriasPiloto2 = 0
@@ -79,6 +84,7 @@ object F1Repository {
             coche = R.drawable.alpinecoche,
             colorFondoCarta = R.color.colorAlpine,
             link = R.string.link6,
+            linkPresentation = R.string.link6_1,
             numeroCampeonatosConstructores = 2,
             numeroVictoriasPiloto1 = 1,
             numeroVictoriasPiloto2 = 1
@@ -92,6 +98,7 @@ object F1Repository {
             coche = R.drawable.williamscoche,
             colorFondoCarta = R.color.colorWilliams,
             link = R.string.link7,
+            linkPresentation = R.string.link7_1,
             numeroCampeonatosConstructores = 9,
             numeroVictoriasPiloto1 = 0,
             numeroVictoriasPiloto2 = 0
@@ -105,6 +112,7 @@ object F1Repository {
             coche = R.drawable.alphatauricoche,
             colorFondoCarta = R.color.colorVisaRB,
             link = R.string.link8,
+            linkPresentation = R.string.link8_1,
             numeroCampeonatosConstructores = 0,
             numeroVictoriasPiloto1 = 0,
             numeroVictoriasPiloto2 = 8
@@ -118,6 +126,7 @@ object F1Repository {
             coche = R.drawable.stakecoche,
             colorFondoCarta = R.color.colorStake,
             link = R.string.link9,
+            linkPresentation = R.string.link9_1,
             numeroCampeonatosConstructores = 0,
             numeroVictoriasPiloto1 = 10,
             numeroVictoriasPiloto2 = 0
@@ -131,6 +140,7 @@ object F1Repository {
             coche = R.drawable.haascoche,
             colorFondoCarta = R.color.colorHaas,
             link = R.string.link10,
+            linkPresentation = R.string.link10_1,
             numeroCampeonatosConstructores = 0,
             numeroVictoriasPiloto1 = 0,
             numeroVictoriasPiloto2 = 0

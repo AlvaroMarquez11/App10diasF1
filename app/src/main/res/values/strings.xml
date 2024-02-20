@@ -50,4 +50,17 @@
     <string name="link8">https://www.visacashapprb.com/en/</string>
     <string name="link9">https://stakef1.team/</string>
     <string name="link10">https://www.haasf1team.com/</string>
+    <string name="link1_1">https://www.youtube.com/watch?v=qq2bItiq2WI</string>
+    <string name="link2_1">https://www.youtube.com/watch?v=7xS5JgaGtHg</string>
+    <string name="link3_1">https://www.youtube.com/watch?v=04TsqI1lUV8</string>
+    <string name="link4_1">https://www.youtube.com/watch?v=6UuFXnoIrUk</string>
+    <string name="link5_1">https://www.youtube.com/watch?v=vbg2IaCLXF4</string>
+    <string name="link6_1">https://www.youtube.com/watch?v=nudPIq4lUt8</string>
+    <string name="link7_1">https://www.youtube.com/watch?v=tuu2BUaEs_o</string>
+    <string name="link8_1">https://www.youtube.com/watch?v=3UkOT2Qcpb8</string>
+    <string name="link9_1">https://www.youtube.com/watch?v=_omlQl8EaFo</string>
+    <string name="link10_1">https://www.youtube.com/watch?v=oEMi8g9-ypE</string>
+    <string name="victorias"> victorias(s)</string>
+    <string name="jefeEquipo"> Jefe de equipo: </string>
+    <string name="clickImagen"> Haga click en la imagen para ver la presentacion</string>
 </resources>

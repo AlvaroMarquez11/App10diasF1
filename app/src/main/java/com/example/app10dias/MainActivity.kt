@@ -7,8 +7,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -39,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -70,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FutbolApp(if (isSystemInDarkTheme()) R.drawable.logof1negro else R.drawable.logof1)
+                    F1App(if (isSystemInDarkTheme()) R.drawable.logof1negro else R.drawable.logof1)
                 }
             }
         }
@@ -79,15 +85,15 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FutbolApp(image: Int) {
+fun F1App(image: Int) {
     Scaffold(
         topBar = {
-            FutbolTopBar(image)
+            F1TopBar(image)
         }
     ) { it ->
         LazyColumn(contentPadding = it) {
             items(sentences) {
-                SentenceItem(
+                F1Item(
                     f1 = it,
                     modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
                 )
@@ -98,35 +104,18 @@ fun FutbolApp(image: Int) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FutbolTopBar(image: Int, modifier: Modifier = Modifier) {
+fun F1TopBar(image: Int, modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-
-                Image(
-                    painterResource(image),
-                    contentDescription = null,
-                    modifier = modifier.size(dimensionResource(R.dimen.image_size3))
-                )
-
+                LogoF1(image, modifier)
                 Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displayLarge,
-                    fontWeight = FontWeight.Bold
-                )
-
+                Titulo()
                 Spacer(modifier = Modifier.weight(1f))
-
-                Image(
-                    painterResource(image),
-                    contentDescription = null,
-                    modifier = modifier.size(dimensionResource(R.dimen.image_size3))
-                )
+                LogoF1(image, modifier)
                 Spacer(modifier = Modifier.weight(1f))
             }
         },
@@ -135,23 +124,53 @@ fun FutbolTopBar(image: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SentenceItem(
+private fun LogoF1(image: Int, modifier: Modifier) {
+    Image(
+        painterResource(image),
+        contentDescription = null,
+        modifier = modifier.size(dimensionResource(R.dimen.image_size2))
+    )
+}
+
+@Composable
+private fun Titulo() {
+    Text(
+        text = stringResource(R.string.app_name),
+        style = MaterialTheme.typography.displayLarge,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+fun F1Item(
     f1: F1,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
+            .clip(
+            MaterialTheme.shapes.medium.copy(
+                topStart = CornerSize(0.dp),
+                bottomEnd = CornerSize(0.dp)
+            )
+        )
     ) {
         Column(
             modifier = Modifier
                 .background(colorResource(f1.colorFondoCarta))
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    )
+                )
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(dimensionResource(id = R.dimen.padding_small))
             ) {
-                ClubInformation(
+                TeamInformation(
                     f1.equipo,
                     f1.piloto1,
                     f1.piloto2,
@@ -159,6 +178,7 @@ fun SentenceItem(
                     f1.escudo,
                     f1.coche,
                     f1.link,
+                    f1.linkPresentation,
                     f1.numeroCampeonatosConstructores,
                     f1.numeroVictoriasPiloto1,
                     f1.numeroVictoriasPiloto2
@@ -169,7 +189,7 @@ fun SentenceItem(
 }
 
 @Composable
-fun ClubInformation(
+fun TeamInformation(
     @StringRes equipo: Int,
     @StringRes piloto1: Int,
     @StringRes piloto2: Int,
@@ -177,6 +197,7 @@ fun ClubInformation(
     @DrawableRes escuderia: Int,
     @DrawableRes coche: Int,
     @StringRes link: Int,
+    @StringRes linkPresentacion: Int,
     numeroCampeonatosConstructores: Int,
     numeroCampeonatosPiloto1: Int,
     numeroCampeonatosPiloto2: Int,
@@ -189,14 +210,7 @@ fun ClubInformation(
                 NombreEquipo(equipo)
                 Spacer(modifier = Modifier.weight(1f))
                 Row (modifier = modifier.padding(start = 15.dp)){
-                    repeat(numeroCampeonatosConstructores){
-                        Image(
-                            painter = painterResource(R.drawable.trofeo),
-                            contentDescription = null,
-                            modifier = modifier
-                                .size(18.dp)
-                        )
-                    }
+                    Trofeos(numeroCampeonatosConstructores, modifier)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -216,20 +230,10 @@ fun ClubInformation(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Image(
-                            painter = painterResource(coche),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(dimensionResource(R.dimen.image_size)),
-                        )
-                        Text(
-                            text = stringResource(piloto1) + " " + numeroCampeonatosPiloto1 + " victoria(s)",
-                            color = Color.White,
-                        )
-                        Text(
-                            text = stringResource(piloto2) + " " + numeroCampeonatosPiloto2 + " victoria(s)",
-                            color = Color.White,
-                        )
+                        ImagenCoche(linkPresentacion, coche)
+                        TextoInformativo()
+                        TextoPiloto(piloto1, numeroCampeonatosPiloto1)
+                        TextoPiloto(piloto2, numeroCampeonatosPiloto2)
                         EnlaceWeb(link)
                     }
                 }
@@ -239,13 +243,77 @@ fun ClubInformation(
 }
 
 @Composable
+private fun Trofeos(
+    numeroCampeonatosConstructores: Int,
+    modifier: Modifier
+) {
+    repeat(numeroCampeonatosConstructores) {
+        Image(
+            painter = painterResource(R.drawable.trofeo),
+            contentDescription = null,
+            modifier = modifier
+                .size(18.dp)
+        )
+    }
+}
+
+@Composable
+private fun TextoPiloto(piloto: Int, numeroCampeonatosPiloto: Int) {
+    Text(
+        text = stringResource(piloto) + " " + numeroCampeonatosPiloto + " " + stringResource(R.string.victorias),
+        color = Color.White,
+    )
+}
+
+@Composable
+private fun TextoInformativo() {
+    val subrayado = buildAnnotatedString {
+        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+            append(stringResource(R.string.clickImagen))
+        }
+    }
+    Text(
+        text = subrayado,
+        color = Color.White,
+        modifier = Modifier
+            .padding(
+                top = dimensionResource(R.dimen.padding_small),
+                bottom = dimensionResource(R.dimen.padding_medium)
+            )
+    )
+}
+
+@Composable
+private fun ImagenCoche(linkPresentacion: Int, coche: Int) {
+    val context = LocalContext.current
+    val linkPres = stringResource(linkPresentacion)
+
+    Image(
+        painter = painterResource(coche),
+        contentDescription = null,
+        modifier = Modifier
+            .clip(
+                MaterialTheme.shapes.large.copy(
+                    topStart = CornerSize(0.dp)
+                )
+            )
+            .clickable {
+                val intent = Intent(
+                    Intent.ACTION_VIEW, Uri.parse(linkPres)
+                )
+                context.startActivity(intent)
+            }
+    )
+}
+
+@Composable
 private fun NombreJefeDeEquipo(estadio: Int) {
     Text(
-        text = "Jefe de equipo: " + stringResource(estadio),
+        text = stringResource(R.string.jefeEquipo) + "  " + stringResource(estadio),
         style = MaterialTheme.typography.titleLarge,
         color = Color.White,
         modifier = Modifier.padding(dimensionResource(R.dimen.padding_small)),
-        fontStyle = FontStyle.Italic,
+        fontStyle = FontStyle.Italic
     )
 }
 
@@ -257,7 +325,7 @@ private fun NombreEquipo(nombre: Int) {
         color = Color.White,
         modifier = Modifier
             .padding(dimensionResource(R.dimen.padding_medium)),
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Bold
     )
 }
 
@@ -267,8 +335,8 @@ private fun Escudo(escudo: Int, modifier: Modifier) {
         painter = painterResource(escudo),
         contentDescription = null,
         modifier = modifier
-            .size(dimensionResource(R.dimen.image_size2)),
-        contentScale = ContentScale.Crop,
+            .size(dimensionResource(R.dimen.image_size)),
+        contentScale = ContentScale.Crop
     )
 }
 
@@ -317,7 +385,7 @@ private fun IconBoton(
 @Composable
 fun SentenceLightPreview() {
     App10DiasTheme(darkTheme = false) {
-        FutbolApp(R.drawable.logof1)
+        F1App(R.drawable.logof1)
     }
 }
 
@@ -325,6 +393,6 @@ fun SentenceLightPreview() {
 @Composable
 fun SentenceDarkPreview() {
     App10DiasTheme(darkTheme = true) {
-        FutbolApp(R.drawable.logof1negro)
+        F1App(R.drawable.logof1negro)
     }
 }
