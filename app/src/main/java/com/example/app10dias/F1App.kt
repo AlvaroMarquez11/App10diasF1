@@ -13,9 +13,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -54,9 +57,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import com.example.app10dias.model.F1
 
@@ -172,10 +177,14 @@ fun TeamInformation(
             Column {
                 NombreEquipo(equipo, colorFuente)
                 Spacer(modifier = Modifier.weight(1f))
-                Row(modifier = modifier.padding(
-                    start = dimensionResource(R.dimen.padding_small),
-                    bottom = dimensionResource(R.dimen.padding_small
-                    ))) {
+                Row(
+                    modifier = modifier.padding(
+                        start = dimensionResource(R.dimen.padding_small),
+                        bottom = dimensionResource(
+                            R.dimen.padding_small
+                        )
+                    )
+                ) {
                     Trofeos(numeroCampeonatosConstructores, modifier)
                 }
             }
@@ -230,7 +239,7 @@ fun TeamInformation(
                     }
                 }
             }
-            CocheDialog(coche, openImagen, {openImagen = false}, modifier)
+            CocheDialog(coche, openImagen, { openImagen = false }, modifier)
         }
     }
 }
@@ -307,18 +316,29 @@ private fun CocheDialog(
     dismissDialog: () -> Unit,
     modifier: Modifier
 ) {
-    if(showDialog){
+    if (showDialog) {
         Dialog(
-            onDismissRequest = {dismissDialog()},
-        ) {
-            Image(
-                painter = painterResource(coche),
-                contentDescription = null,
-                modifier = modifier
-                    .size(dimensionResource(R.dimen.image_size3))
-                    .rotate(90f),
-                contentScale = ContentScale.Crop
+            onDismissRequest = { dismissDialog() },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
             )
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(400.dp, 600.dp)
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(coche),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(500.dp, 300.dp)
+                        .rotate(90f),
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
     }
 }
