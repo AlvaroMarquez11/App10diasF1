@@ -56,6 +56,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import com.example.app10dias.model.F1
 
@@ -164,17 +165,33 @@ fun TeamInformation(
 ) {
     var rotationState by remember { mutableStateOf(0f) }
     var expanded by remember { mutableStateOf(false) }
+    var openImagen: Boolean by remember { mutableStateOf(false) }
+
     Column {
         Row {
             Column {
                 NombreEquipo(equipo, colorFuente)
                 Spacer(modifier = Modifier.weight(1f))
-                Row(modifier = modifier.padding(start = 15.dp)) {
+                Row(modifier = modifier.padding(
+                    start = dimensionResource(R.dimen.padding_small),
+                    bottom = dimensionResource(R.dimen.padding_small
+                    ))) {
                     Trofeos(numeroCampeonatosConstructores, modifier)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            Escudo(escuderia, rotationState, modifier)
+            val animatedRotation by animateFloatAsState(
+                targetValue = rotationState,
+                animationSpec = tween(durationMillis = 1000), label = ""
+            )
+            Image(
+                painter = painterResource(escuderia),
+                contentDescription = null,
+                modifier = modifier
+                    .size(dimensionResource(R.dimen.image_size))
+                    .rotate(animatedRotation),
+                contentScale = ContentScale.Crop
+            )
         }
         Column {
             Row {
@@ -193,17 +210,31 @@ fun TeamInformation(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        ImagenCoche(linkPresentacion, coche)
-                        TextoInformativo(colorFuente)
+                        Image(
+                            painter = painterResource(coche),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .clip(
+                                    MaterialTheme.shapes.large.copy(
+                                        topStart = CornerSize(0.dp)
+                                    )
+                                )
+                                .clickable {
+                                    openImagen = true
+                                }
+                        )
+                        IconoYoutube(linkPresentacion)
                         TextoPiloto(piloto1, numeroCampeonatosPiloto1, colorFuente)
                         TextoPiloto(piloto2, numeroCampeonatosPiloto2, colorFuente)
                         EnlaceWeb(link, colorFuente)
                     }
                 }
             }
+            CocheDialog(coche, openImagen, {openImagen = false}, modifier)
         }
     }
 }
+
 
 @Composable
 private fun Trofeos(
@@ -229,37 +260,14 @@ private fun TextoPiloto(piloto: Int, numeroCampeonatosPiloto: Int, @ColorRes col
 }
 
 @Composable
-private fun TextoInformativo(@ColorRes colorFuente: Int) {
-    val subrayado = buildAnnotatedString {
-        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-            append(stringResource(R.string.clickImagen))
-        }
-    }
-    Text(
-        text = subrayado,
-        color = colorResource(colorFuente),
-        modifier = Modifier
-            .padding(
-                top = dimensionResource(R.dimen.padding_small),
-                bottom = dimensionResource(R.dimen.padding_medium)
-            )
-    )
-}
-
-@Composable
-private fun ImagenCoche(linkPresentacion: Int, coche: Int) {
+private fun IconoYoutube(linkPresentacion: Int) {
     val context = LocalContext.current
     val linkPres = stringResource(linkPresentacion)
-
     Image(
-        painter = painterResource(coche),
+        painter = painterResource(R.drawable.iconoyoutube),
         contentDescription = null,
         modifier = Modifier
-            .clip(
-                MaterialTheme.shapes.large.copy(
-                    topStart = CornerSize(0.dp)
-                )
-            )
+            .size(dimensionResource(R.dimen.image_size))
             .clickable {
                 val intent = Intent(
                     Intent.ACTION_VIEW, Uri.parse(linkPres)
@@ -293,19 +301,26 @@ private fun NombreEquipo(nombre: Int, @ColorRes colorFuente: Int) {
 }
 
 @Composable
-private fun Escudo(escudo: Int, rotation: Float, modifier: Modifier) {
-    val animatedRotation by animateFloatAsState(
-        targetValue = rotation,
-        animationSpec = tween(durationMillis = 1000), label = ""
-    )
-    Image(
-        painter = painterResource(escudo),
-        contentDescription = null,
-        modifier = modifier
-            .size(dimensionResource(R.dimen.image_size))
-            .rotate(animatedRotation),
-        contentScale = ContentScale.Crop
-    )
+private fun CocheDialog(
+    coche: Int,
+    showDialog: Boolean,
+    dismissDialog: () -> Unit,
+    modifier: Modifier
+) {
+    if(showDialog){
+        Dialog(
+            onDismissRequest = {dismissDialog()},
+        ) {
+            Image(
+                painter = painterResource(coche),
+                contentDescription = null,
+                modifier = modifier
+                    .size(dimensionResource(R.dimen.image_size3))
+                    .rotate(90f),
+                contentScale = ContentScale.Crop
+            )
+        }
+    }
 }
 
 @Composable

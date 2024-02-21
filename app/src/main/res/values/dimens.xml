@@ -19,5 +19,6 @@
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="image_size">70dp</dimen>
     <dimen name="image_size2">60dp</dimen>
+    <dimen name="image_size3">200dp</dimen>
     <dimen name="padding_large">250dp</dimen>
 </resources>
