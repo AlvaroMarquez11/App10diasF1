@@ -13,12 +13,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,7 +42,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -57,7 +59,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -239,7 +240,7 @@ fun TeamInformation(
                     }
                 }
             }
-            CocheDialog(coche, openImagen, { openImagen = false }, modifier)
+            CocheDialog(coche, openImagen) { openImagen = false }
         }
     }
 }
@@ -314,7 +315,6 @@ private fun CocheDialog(
     coche: Int,
     showDialog: Boolean,
     dismissDialog: () -> Unit,
-    modifier: Modifier
 ) {
     if (showDialog) {
         Dialog(
@@ -324,21 +324,29 @@ private fun CocheDialog(
                 dismissOnClickOutside = true
             )
         ) {
-            Box(
+            val scale = remember { mutableStateOf(1f) }
+            val translation = remember { mutableStateOf(Offset(0f, 0f)) }
+
+            Image(
+                painter = painterResource(coche),
+                contentDescription = null,
                 modifier = Modifier
-                    .size(400.dp, 600.dp)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(coche),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(500.dp, 300.dp)
-                        .rotate(90f),
-                    contentScale = ContentScale.Crop
-                )
-            }
+                    .size(300.dp, 500.dp)
+                    .rotate(90f)
+                    .pointerInput(Unit) {
+                        detectTransformGestures { _, pan, zoom, _ ->
+                            scale.value *= zoom
+                            translation.value = translation.value.plus(pan)
+                        }
+                    }
+                    .graphicsLayer(
+                        scaleX = scale.value,
+                        scaleY = scale.value,
+                        translationX = translation.value.x,
+                        translationY = translation.value.y
+                    ),
+                contentScale = ContentScale.Fit
+            )
         }
     }
 }
